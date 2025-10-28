@@ -7,7 +7,8 @@ import (
 
 func main() {
 	mux := http.NewServeMux()
-	// fileServer := http.FileServer(http.Dir("./ui/static/"))
+	fileServer := http.FileServer(http.Dir("./ui/static/"))
+	mux.Handle("GET /static/", http.StripPrefix("/static", fileServer))
 	mux.HandleFunc("GET /{$}", home)
 	log.Print("starting server on :4000")
 	err := http.ListenAndServe(":4000", mux)
